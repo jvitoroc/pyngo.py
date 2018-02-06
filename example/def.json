@@ -1,0 +1,6 @@
+{
+  "todo": [{"c": {"t": "String", "minl": 0}, "n": "task"},
+          {"c": {"t": "Boolean"}, "n": "completed"},
+          {"c": {"t": "String"}, "n": "body"},
+          {"c": {"t": "Integer"}, "n": "age"}]
+}
