@@ -7,7 +7,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 import pyparsing as pp
 
-username = pp.Literal("").setResultsName('username')
+username = pp.Word(pp.alphanums).setResultsName('username')
 delimiter = pp.Suppress(pp.Literal("|"))
 equal = pp.Suppress(pp.Literal("="))
 password = pp.Word(pp.empty).setResultsName('password')
