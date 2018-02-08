@@ -16,9 +16,6 @@ def createParser(order, fields):
             parser += pp.Regex("\d+").setResultsName(field)+pp.Suppress(pp.Literal(" "))
     return parser + pp.Suppress(pp.LineEnd())
 
-def createParser(order, fields):
-    regex
-
 class Fields:
 
     def __init__(self, fields):
