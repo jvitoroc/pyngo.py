@@ -1,5 +1,5 @@
 from classes.Fields import Fields
-from type import Types
+from classes.CollectionIO import CollectionIO
 
 class Collection:
 
@@ -7,34 +7,28 @@ class Collection:
         self.name = name
         self.path = '{}/data/{}.col'.format(path, name)
         self.fields = Fields(fields)
-        self.file = open(self.path, 'ab+')
-
-    def __del__(self):
-        self.file.close()
+        order = []
+        for field in fields:
+            order.append(field['n'])
+        self.StorageIO = CollectionIO((path, name), order, self.fields)
 
     def insert(self, values):
-        insertion = []
         res = self.fields.validate(values)
-        self.file.seek(2)
         if(res is not False):
-            for field in self.fields.order:
-                insertion.append(str(res[field]))
-            self.file.write(" ".join(insertion).encode('unicode-escape'))
-            self.file.write(b"\n")
+            self.StorageIO.write(values)
         pass
 
     def read(self, filter=None):
+        reader = self.StorageIO.createReader()
         res = []
-        fields = self.fields
-        self.file.seek(0)
-        for record in self.file:
-            data = self.fields.parser.parseString(record)
-            rd = {}
-            for field in self.fields.order:
-                rd[field] = fields[field].convert(data[field])
-            res.append(rd)
-        return res
-        pass
+        try:
+            while(True):
+                record = reader.__next__()
+                # Check if record matches filter
+                if(True):
+                    res.append(record)#if matches
+        except StopIteration:
+            return res#
 
     #of course I will update this function soon
     def delete(self, filter=None):
