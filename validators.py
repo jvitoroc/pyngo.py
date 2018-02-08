@@ -9,7 +9,9 @@ target[0] == field value
 def typee(target, bullet):
     try:
         v = bullet.value(target[1])
-        if(type(target[1]) == bullet.value):
+        return (False, v)
+    except TypeError:
+        if (type(target[1]) == bullet.value):
             return (False, v)
         else:
             raise TypeError()
