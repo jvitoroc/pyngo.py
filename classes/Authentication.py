@@ -49,5 +49,5 @@ class Authentication:
         pass
 
     def createAccount(self, username, password, powers):
-        #must be root account
+        #only the root user can create a account
         pass

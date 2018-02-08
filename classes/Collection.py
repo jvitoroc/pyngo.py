@@ -1,12 +1,16 @@
 from classes.Fields import Fields
+from type import Types
 
 class Collection:
 
     def __init__(self, fields, name, path):
         self.name = name
-        self.path = path
+        self.path = '{}/data/{}.col'.format(path, name)
         self.fields = Fields(fields)
-        self.file = open('{}/data/{}.col'.format(path, name), 'a+', encoding='utf-8')
+        self.file = open(self.path, 'ab+')
+
+    def __del__(self):
+        self.file.close()
 
     def insert(self, values):
         insertion = []
@@ -15,8 +19,8 @@ class Collection:
         if(res is not False):
             for field in self.fields.order:
                 insertion.append(str(res[field]))
-            insertion.append("\n")
-            self.file.write(" ".join(insertion))
+            self.file.write(" ".join(insertion).encode('unicode-escape'))
+            self.file.write(b"\n")
         pass
 
     def read(self, filter=None):
@@ -32,9 +36,10 @@ class Collection:
         return res
         pass
 
-    # of course I will update this function soon
+    #of course I will update this function soon
     def delete(self, filter=None):
-        with open('{}/data/{}.col'.format(self.path, self.name), 'w') as f:
-            f.seek(0)
-            f.write('')
         pass
+        # with open('{}/data/{}.col'.format(self.path, self.name), 'w') as f:
+        #     f.seek(0)
+        #     f.write('')
+        # pass

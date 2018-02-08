@@ -1,17 +1,19 @@
 from type import Types
 import pyparsing as pp
+import re
 from classes.Field import Field
 
 def createParser(order, fields):
     parser = pp.Suppress(pp.LineStart())
+
     for field in order:
         type = fields[field].type
         if(type == Types.String):
-            parser += pp.QuotedString('"').setResultsName(field)+pp.Optional(pp.Literal(" "))
+            parser += pp.QuotedString('"').setResultsName(field)+pp.Suppress(pp.Literal(" "))
         elif(type == Types.Boolean):
-            parser += pp.Regex("(True|False)").setResultsName(field)+pp.Optional(pp.Literal(" "))
+            parser += pp.Regex("(True|False)").setResultsName(field)+pp.Suppress(pp.Literal(" "))
         elif(type == Types.Integer):
-            parser += pp.Regex("\d+").setResultsName(field)+pp.Optional(pp.Literal(" "))
+            parser += pp.Regex("\d+").setResultsName(field)+pp.Suppress(pp.Literal(" "))
     return parser + pp.Suppress(pp.LineEnd())
 
 class Fields:
