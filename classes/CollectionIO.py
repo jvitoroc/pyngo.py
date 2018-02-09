@@ -1,26 +1,18 @@
-import sPickle
+from classes.StreamingPickle import StreamingPickle
 
 class CollectionIO:
 
     def __init__(self, path, order, fields):
         self.path = '{}/data/{}.col'.format(path[0], path[1])
-        self.file = open(self.path, 'ab+')
+        self.streamFile = StreamingPickle(self.path)
         self.fieldsLength = len(order)
 
-
     def createReader(self):
-        i = 0
-        record = {}
-        for r in sPickle.s_load(self.file):
-            record[r[0]] = r[1]
-            i += 1
-            if(i == self.fieldsLength):
-                yield record
-                record = {}
-                i = 0
+        for r in self.streamFile.read():
+            yield r
 
     def write(self, record):
-        sPickle.s_dump(record.items(), self.file)
+        self.streamFile.write(record)
 
     # def __iter__(self):
     #     return self
