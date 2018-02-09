@@ -8,10 +8,16 @@ class Fields:
             name = field['n']
             self.fields[name] = Field(field['c'], name)
 
-    def __getitem__(self, field):
-        return self.fields[field]
+    def _iter_(self, field):
+        return self.fields.values()
 
     def validate(self, values):
         for field, value in values.items():
-            values[field] = self.fields[field].validate(value)
+            self.fields[field].validate(value)
         return values
+
+    def convert(self, values):
+        converted = {}
+        for f in self.fields:
+            converted[f] = self.fields[f].convert(values[f])
+        return converted

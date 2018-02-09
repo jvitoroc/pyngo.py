@@ -1,5 +1,6 @@
 from classes.Fields import Fields
 from classes.CollectionIO import CollectionIO
+from classes.Record import Record
 
 class Collection:
 
@@ -21,14 +22,9 @@ class Collection:
     def read(self, filter=None):
         reader = self.StorageIO.createReader()
         res = []
-        try:
-            while(True):
-                record = reader.__next__()
-                # Check if record matches filter
-                if(True):
-                    res.append(record)#if matches
-        except StopIteration:
-            return res#
+        for record in reader:
+            res.append(Record(record, self.fields).extract())
+        return res
 
     #of course I will update this function soon
     def delete(self, filter=None):

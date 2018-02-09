@@ -14,10 +14,6 @@ class Field:
             res = validators[constraint]((self.name, value), bullet)
             if(res[0]):
                 raise Exception(res[1])
-        if(self.type == Types.String):
-            return ''.join(['"', value, '"'])
-        else:
-            return value
 
     def convert(self, value):
         if(self.type == Types.String):
